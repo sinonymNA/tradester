@@ -10,7 +10,6 @@ from typing import Optional
 from uuid import uuid4
 
 import pandas as pd
-import pandas_ta as ta
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
