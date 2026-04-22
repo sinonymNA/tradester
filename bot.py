@@ -270,7 +270,7 @@ class MeanReversionBot:
         df["std_vwap_dev"] = df["vwap_deviation"].rolling(VWAP_STD_LOOKBACK).std()
         df["lower_band_3sigma"] = df["vwap"] - 3.0 * df["std_vwap_dev"]
         df["avg_volume_20"] = df["volume"].rolling(VOLUME_LOOKBACK).mean()
-        df["rsi"] = ta.rsi(df["close"], length=RSI_LENGTH)
+        df["rsi"] = compute_rsi(df["close"], length=RSI_LENGTH)
         return df
 
     def entry_signal(self, df: pd.DataFrame) -> bool:
