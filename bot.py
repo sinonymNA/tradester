@@ -96,6 +96,18 @@ class RuntimeState:
     stop_reason: Optional[str] = None
     position: PositionState = field(default_factory=PositionState)
 
+def compute_rsi(series: pd.Series, length: int = 14) -> pd.Series:
+    delta = series.diff()
+
+    gain = delta.clip(lower=0)
+    loss = -delta.clip(upper=0)
+
+    avg_gain = gain.ewm(alpha=1 / length, min_periods=length, adjust=False).mean()
+    avg_loss = loss.ewm(alpha=1 / length, min_periods=length, adjust=False).mean()
+
+    rs = avg_gain / avg_loss.replace(0, pd.NA)
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
 
 class MeanReversionBot:
     def __init__(self) -> None:
